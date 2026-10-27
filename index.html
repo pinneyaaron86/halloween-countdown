@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Halloween 2026 Countdown</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    background:linear-gradient(to bottom,#330066,#12001f);
+    font-family:Arial,sans-serif;
+    color:white;
+    text-align:center;
+    height:100vh;
+}
+
+/* TITLE */
+
+h1{
+    margin-top:20px;
+    font-size:4rem;
+    color:#ff9900;
+    text-shadow:
+        0 0 10px orange,
+        0 0 20px orange,
+        0 0 40px red;
+}
+
+.subtitle{
+    font-size:1.3rem;
+    color:#d9a3ff;
+    margin-bottom:15px;
+}
+
+/* COUNTDOWN */
+
+#countdown{
+    font-size:2.5rem;
+    margin-bottom:20px;
+    text-shadow:
+        0 0 10px white,
+        0 0 20px violet,
+        0 0 30px purple;
+}
+
+/* FRANKENSTEIN */
+
+.frankenstein{
+    width:300px;
+    max-width:80%;
+    border-radius:15px;
+    filter:drop-shadow(0 0 25px lime);
+    animation:bob 4s ease-in-out infinite;
+}
+
+@keyframes bob{
+    0%,100%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
+}
+
+/* GHOSTS */
+
+.ghost{
+    position:absolute;
+    font-size:80px;
+    opacity:.8;
+}
+
+#ghost1{
+    top:120px;
+    animation:ghost1move 25s linear infinite;
+}
+
+#ghost2{
+    top:300px;
+    animation:ghost2move 20s linear infinite;
+}
+
+@keyframes ghost1move{
+    0%{
+        left:-150px;
+    }
+    50%{
+        transform:translateY(-40px);
+    }
+    100%{
+        left:110%;
+    }
+}
+
+@keyframes ghost2move{
+    0%{
+        left:110%;
+    }
+    50%{
+        transform:translateY(30px);
+    }
+    100%{
+        left:-150px;
+    }
+}
+
+/* BATS */
+
+.bat{
+    position:absolute;
+    font-size:45px;
+}
+
+.b1{
+    top:75px;
+    animation:bat1 15s linear infinite;
+}
+
+.b2{
+    top:175px;
+    animation:bat2 12s linear infinite;
+}
+
+@keyframes bat1{
+    from{left:-100px;}
+    to{left:110%;}
+}
+
+@keyframes bat2{
+    from{left:110%;}
+    to{left:-100px;}
+}
+
+/* FOG */
+
+.fog{
+    position:absolute;
+    bottom:0;
+    width:200%;
+    height:180px;
+    opacity:.15;
+    background:
+    radial-gradient(
+        circle,
+        rgba(200,200,255,.15),
+        transparent 80%
+    );
+    animation:fogmove 35s linear infinite;
+}
+
+@keyframes fogmove{
+    from{
+        transform:translateX(-25%);
+    }
+    to{
+        transform:translateX(0%);
+    }
+}
+
+/* PUMPKINS */
+
+.pumpkin{
+    position:absolute;
+    bottom:40px;
+    font-size:65px;
+    filter:drop-shadow(0 0 15px orange);
+}
+
+.left{
+    left:8%;
+}
+
+.right{
+    right:8%;
+}
+
+/* LIGHTNING */
+
+#lightning{
+    position:fixed;
+    inset:0;
+    background:white;
+    opacity:0;
+    pointer-events:none;
+}
+
+.flash{
+    animation:flash .5s;
+}
+
+@keyframes flash{
+    0%{opacity:0;}
+    25%{opacity:.9;}
+    50%{opacity:0;}
+    75%{opacity:.7;}
+    100%{opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="lightning"></div>
+
+<div class="ghost" id="ghost1">👻</div>
+<div class="ghost" id="ghost2">👻</div>
+
+<div class="bat b1">🦇</div>
+<div class="bat b2">🦇</div>
+
+<h1>🎃 Halloween 2026 🎃</h1>
+
+<div class="subtitle">
+Countdown to Halloween (Mountain Time)
+</div>
+
+<div id="countdown">
+Loading...
+</div>
+
+<img
+class="frankenstein"
+src="frankenstein.jpg"
+alt="Frankenstein">
+
+<div class="pumpkin left">🎃</div>
+<div class="pumpkin right">🎃</div>
+
+<div class="fog"></div>
+
+<script>
+
+const targetDate =
+new Date("October 31, 2026 00:00:00");
+
+function updateCountdown(){
+
+    const now = new Date();
+    const difference = targetDate - now;
+
+    if(difference <= 0){
+
+        document.getElementById("countdown").innerHTML =
+        "🎃 HAPPY HALLOWEEN! 🎃";
+
+        return;
+    }
+
+    const days =
+        Math.floor(difference / (1000 * 60 * 60 * 24));
+
+    const hours =
+        Math.floor(
+            (difference % (1000 * 60 * 60 * 24))
+            / (1000 * 60 * 60)
+        );
+
+    const minutes =
+        Math.floor(
+            (difference % (1000 * 60 * 60))
+            / (1000 * 60)
+        );
+
+    const seconds =
+        Math.floor(
+            (difference % (1000 * 60))
+            / 1000
+        );
+
+    document.getElementById("countdown").innerHTML =
+        `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+}
+
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+/* LIGHTNING */
+
+setInterval(function(){
+
+    const lightning =
+        document.getElementById("lightning");
+
+    lightning.classList.add("flash");
+
+    setTimeout(function(){
+
+        lightning.classList.remove("flash");
+
+    },500);
+
+},15000);
+
+</script>
+
+</body>
+</html>
